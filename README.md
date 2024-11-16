@@ -52,65 +52,213 @@ The project uses several collections to store data related to users, courses, pa
 - **Inquiries**: Stores inquiries made by students to instructors or support teams.
 - **Certificates**: Contains information about issued certificates for completed courses, including the issue date and certificate URL.
 
-## API Endpoints
+# API Endpoints Documentation
 
-### Authentication
+This document provides a detailed description of all available API endpoints for the platform.
 
-- **POST /signUp**: Registers a new user. Ensures the email is unique and the data is validated using `addUserSchema`.
-- **POST /signIn**: Authenticates a user with email and password. Returns a JWT token for further use.
-- **PATCH /**: Updates the user's password after validating the old password. Requires email and new password in the request body.
+## Auth API
 
-### User Management
+### `POST /auth/signUp`
+- **Description**: Registers a new user in the system. This endpoint requires the user's details, including a unique email and password. The system checks if the email is already in use before completing the registration.
 
-- **GET /users/:id**: Fetches user profile by user ID. Requires authentication.
-- **PUT /users/**: Updates the user's profile. Accessible only to users with the role `student`.
-- **DELETE /users/:id**: Deletes a user account by user ID. Accessible only to users with the role `admin`.
-- **GET /users/**: Retrieves a list of all users. Accessible only to users with the role `admin`.
+### `POST /auth/signIn`
+- **Description**: Authenticates a user and generates a token. The user must provide their email and password. Upon successful authentication, the user will receive a JWT token for future requests.
 
-### Course Management
+### `PATCH /auth`
+- **Description**: Allows a user to change their password. This action requires the user to provide the old password and the new one for security reasons.
 
-- **POST /courses/**: Creates a new course. Requires authentication with `admin` role and uploads files for the course materials.
-- **GET /courses/**: Retrieves all courses.
-- **GET /courses/:id**: Fetches a single course by ID.
-- **PUT /courses/:id**: Updates a course by ID. Accessible to users with `instructor` or `admin` role.
-- **DELETE /courses/:id**: Deletes a course by ID. Accessible only to users with `admin` role.
+---
 
-### Assignment Management
+## User API
 
-- **POST /assignments/**: Creates a new assignment for a course. Requires authentication with `instructor` role.
-- **GET /assignments/**: Retrieves all assignments.
-- **GET /assignments/:id**: Fetches an individual assignment by ID.
-- **PUT /assignments/:id**: Updates an assignment by ID. Accessible to users with `instructor` role.
-- **DELETE /assignments/:id**: Deletes an assignment by ID. Accessible only to users with `instructor` or `admin` role.
+### `PUT /users/:id`
+- **Description**: Updates user information based on the user ID. The user must be authenticated and have proper permissions to modify their own data.
 
-### Payment Management
+### `DELETE /users/:id`
+- **Description**: Deletes a user from the system. Only admins have permission to perform this action. The user specified by the `id` will be permanently removed.
 
-- **POST /payments/**: Creates a new payment. Requires authentication and validates payment details.
-- **GET /payments/**: Retrieves all payments. Accessible to users with `admin` role.
-- **PATCH /payments/:id**: Updates payment status. Accessible to users with `admin` role.
-- **DELETE /payments/:id**: Deletes a payment by ID. Accessible only to users with `admin` role.
+### `GET /users/:id`
+- **Description**: Retrieves the details of a specific user by their ID. This endpoint requires the user to be authenticated.
 
-### Rating & Review Management
+### `GET /users`
+- **Description**: Fetches all users from the system. Accessible only by authenticated admins.
 
-- **POST /ratings/**: Adds a rating for a course or lecture. Requires authentication.
-- **GET /ratings/**: Retrieves all ratings for a course or lecture.
-- **POST /reviews/**: Adds a review for a course or instructor. Requires authentication.
-- **GET /reviews/**: Retrieves all reviews for a course or instructor.
+### `POST /users/enroll`
+- **Description**: Enrolls a user in a specific course. This action requires that the user is logged in and authorized to enroll.
 
-### Submission Management
+### `POST /users/complete`
+- **Description**: Marks a course as completed for the user. The user must have successfully finished the course to use this endpoint.
 
-- **POST /submissions/**: Allows students to submit assignments. Requires authentication with `student` role.
-- **GET /submissions/:id**: Fetches a submission by ID.
-- **PATCH /submissions/:id**: Updates a submission with grade and feedback. Accessible to users with `instructor` role.
+### `POST /users/notification`
+- **Description**: Sends notifications to users. This feature is typically used by admins to inform users about important updates.
 
-### Inquiry Management
+---
 
-- **POST /inquiries/**: Allows students to submit inquiries to instructors or support. Requires authentication.
-- **GET /inquiries/**: Retrieves all inquiries.
+## Course API
 
-### Certificate Management
+### `POST /courses`
+- **Description**: Creates a new course in the system. This endpoint is restricted to admin users, who must provide details such as the course title, description, and content.
 
-- **GET /certificates/:userId**: Retrieves certificates for a given user.
+### `PUT /courses/:id`
+- **Description**: Updates course details for a specific course ID. Admin users are allowed to modify course information, such as description and content.
+
+### `DELETE /courses/:id`
+- **Description**: Deletes a course by its ID. Admin privileges are required to delete a course from the system.
+
+### `GET /courses/:id`
+- **Description**: Fetches the details of a specific course using the course ID. All authenticated users can access course details.
+
+### `GET /courses`
+- **Description**: Retrieves a list of all courses available in the system. Access is restricted to authenticated users.
+
+### `GET /courses/filter`
+- **Description**: Filters courses based on certain criteria like category or difficulty level. This is useful for users to find courses matching their preferences.
+
+### `GET /courses/userCourses`
+- **Description**: Retrieves all courses enrolled by the current user. This endpoint helps users to track their progress.
+
+### `GET /courses/search`
+- **Description**: Searches for courses based on keywords or categories. It helps users quickly find relevant courses in the system.
+
+---
+
+## Enrollment API
+
+### `POST /enrollments`
+- **Description**: Allows users to enroll in a course. This endpoint requires authentication and is generally used by students to sign up for available courses.
+
+### `PUT /enrollments/:id/status`
+- **Description**: Updates the enrollment status for a specific course enrollment. This can include changing the enrollment to completed or withdrawn.
+
+### `GET /enrollments/userEnrollments`
+- **Description**: Retrieves all course enrollments for a specific user. This endpoint helps users track their current courses.
+
+---
+
+## Inquiry API
+
+### `POST /inquiries`
+- **Description**: Submits an inquiry or question about a course or topic. Users can use this feature to ask for more information.
+
+### `GET /inquiries/forUser`
+- **Description**: Retrieves inquiries made by a specific user. This is available only to admins to help them manage and respond to user inquiries.
+
+### `GET /inquiries/forCourse/:courseId`
+- **Description**: Fetches inquiries related to a specific course. This helps admins or instructors respond to questions about the course content.
+
+### `DELETE /inquiries/:id`
+- **Description**: Deletes a specific inquiry from the system. Admins have permission to remove any inquiry.
+
+---
+
+## Lecture API
+
+### `POST /lectures`
+- **Description**: Adds a new lecture to a course. This is restricted to instructors who can add content to their assigned courses.
+
+### `GET /lectures/lectures/:id`
+- **Description**: Retrieves details about a specific lecture using its ID. All authenticated users can access lecture details.
+
+### `PUT /lectures/:id`
+- **Description**: Updates the content or details of a specific lecture. Only instructors have permission to modify lecture content.
+
+### `DELETE /lectures/:id`
+- **Description**: Deletes a lecture from a course. Instructors can delete their lectures from courses they are assigned to.
+
+### `GET /lectures/:courseId`
+- **Description**: Fetches all lectures for a specific course. Useful for students to view available content within a course.
+
+---
+
+## Payment API
+
+### `POST /payments`
+- **Description**: Processes a payment for a course. Only students can initiate a payment for enrolling in a course.
+
+### `GET /payments`
+- **Description**: Retrieves all payment records in the system. Only admins have access to this data for auditing and reporting purposes.
+
+### `PUT /payments/:id`
+- **Description**: Updates the status of a payment. Admins can mark payments as completed or failed based on the payment gateway response.
+
+### `DELETE /payments/:id`
+- **Description**: Deletes a specific payment record. Admins can remove incorrect or cancelled payments from the system.
+
+---
+
+## Rating API
+
+### `POST /ratings`
+- **Description**: Adds a rating for a specific course. Users can rate courses based on their experience after completing the course.
+
+### `GET /ratings/:courseId`
+- **Description**: Fetches the ratings for a specific course. This allows potential students to evaluate the course based on others' feedback.
+
+### `DELETE /ratings/:id`
+- **Description**: Deletes a rating for a course. Only admins are allowed to remove a course rating.
+
+---
+
+## Review API
+
+### `POST /reviews`
+- **Description**: Adds a review for a specific course. Reviews typically include feedback on the course content and instructor performance.
+
+### `GET /reviews/:courseId`
+- **Description**: Retrieves all reviews for a given course. Users can read reviews before enrolling in a course.
+
+### `PUT /reviews/:id`
+- **Description**: Updates a specific review. Admins or the user who submitted the review can modify their review content.
+
+### `DELETE /reviews/:id`
+- **Description**: Deletes a specific review. Admins have the ability to remove any review from the system.
+
+---
+
+## Submission API
+
+### `POST /submissions/:assignmentId`
+- **Description**: Submits an assignment for grading. Students can upload their assignments related to a specific course or module.
+
+### `PUT /submissions/:submissionId`
+- **Description**: Grades a specific assignment submission. Instructors can provide grades and feedback for student submissions.
+
+### `GET /submissions/assignment/:assignmentId`
+- **Description**: Fetches all submissions for a specific assignment. Useful for instructors to view all student submissions.
+
+### `GET /submissions/user/:userId`
+- **Description**: Retrieves all assignment submissions made by a specific user. This helps instructors track a student's performance.
+
+---
+
+## Certificate API
+
+### `POST /certificates`
+- **Description**: Issues a certificate for a user upon course completion. Instructors or admins can generate certificates for students who successfully complete a course.
+
+### `GET /certificates`
+- **Description**: Fetches all certificates issued to users. Only admins can access this data to verify student achievements.
+
+### `DELETE /certificates/:id`
+- **Description**: Deletes a specific certificate. Instructors or admins can revoke certificates if necessary.
+
+---
+
+## Assignment API
+
+### `POST /assignments`
+- **Description**: Adds a new assignment for a course. Instructors can create assignments for their students to complete.
+
+### `GET /assignments/:courseId`
+- **Description**: Retrieves all assignments for a specific course. Students can view the assignments they need to complete.
+
+### `PUT /assignments/:id`
+- **Description**: Updates the details of an assignment. Instructors can modify assignments, such as changing deadlines or questions.
+
+### `DELETE /assignments/:id`
+- **Description**: Deletes an assignment. Only instructors can remove assignments from a course.
+
+
 
 ## Key Takeaways from this Project
 
