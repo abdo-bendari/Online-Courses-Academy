@@ -1,7 +1,7 @@
 # About
 
-Course Platform is an online platform that allows users to explore a variety of courses, enroll, and track their progress. The platform provides a seamless experience for students to access course materials, watch lectures, submit assignments, and receive certifications upon completion. With a user-friendly interface and advanced features, Course Platform aims to deliver high-quality education to learners worldwide.
-
+Course Platform is a comprehensive online platform designed to make learning more accessible and engaging. It enables users to explore a variety of courses across different domains, enroll easily, and track their learning journey. This platform is tailored to cater to both students and instructors, providing a structured and seamless experience for accessing educational content, submitting assignments, and receiving certifications upon successful course completion.
+The Course Platform emphasizes flexibility and user-friendliness, ensuring learners can engage with high-quality educational resources at their convenience. It also includes advanced features to enhance the learning experience, such as real-time progress tracking, interactive materials, and tools to foster collaboration between students and instructors.
 ## Features
 
 <ul>
@@ -26,7 +26,7 @@ The platform is built with the following technologies:
 
 - **MySQL**: For relational database management. MySQL is used to store all essential data, including user profiles, courses, assignments, payments, and reviews. We chose MySQL due to its stability, performance, and scalability.
 - **Sequelize ORM**: To interact with the MySQL database. Sequelize provides a simple way to define models, query the database, and handle relationships between entities (such as users, courses, and payments) with ease.
-- **TypeScript**: For better type safety and a more structured, scalable codebase.
+- **JavaScript**: For better type safety and a more structured, scalable codebase.
 - **Express.js**: Web framework for building robust APIs.
 - **Helmet**: Security middleware for securing HTTP headers.
 - **Morgan**: HTTP request logger for API requests.
@@ -35,7 +35,6 @@ The platform is built with the following technologies:
 - **Joi**: For validating API inputs to ensure data integrity.
 - **dotenv**: For managing environment variables.
 - **CORS**: To enable secure communication between the client and API.
-- **Multer**: Middleware for handling file uploads (for assignments).
 
 ## Collections
 
