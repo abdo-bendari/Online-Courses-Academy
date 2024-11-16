@@ -262,8 +262,9 @@ This document provides a detailed description of all available API endpoints for
 
 ## Key Takeaways from this Project
 
-Course Platform is a robust, user-friendly platform designed to deliver high-quality online education. With features like course enrollment, assignment submissions, payment management, and certification issuance, the platform aims to provide a seamless learning experience. Secure user authentication and authorization ensure that access to resources is role-based, while data validation maintains the integrity of user inputs. The project utilizes technologies like TypeScript, JWT, MySQL, and Sequelize, offering a scalable solution for online learning.
+Course Platform is a robust, user-friendly platform designed to deliver high-quality online education. With features like course enrollment, assignment submissions, payment management, and certification issuance, the platform aims to provide a seamless learning experience. Secure user authentication and authorization ensure that access to resources is role-based, while data validation maintains the integrity of user inputs. The project utilizes technologies like Helmet, Morgan, JWT, MySQL, and Sequelize, offering a scalable solution for online learning.
 
-## License
+## Project Inspiration
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project was inspired by the growing demand for accessible and efficient online learning platforms. The goal was to create an intuitive, scalable solution that provides students with the ability to enroll, complete courses, and earn certificates, while also allowing instructors to manage their content seamlessly. The platform is designed to streamline the learning process and foster a community where learners can grow, develop new skills, and engage with educational content in a meaningful way.
+
