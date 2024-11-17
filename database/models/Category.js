@@ -21,15 +21,12 @@ const Category = dbConnection.define('Category', {
   timestamps: true, 
 });
 
-// Course.belongsTo(Category,{
-//   foreignKey: 'categoryId',
-// })
+Course.belongsTo(Category,{
+  foreignKey: 'categoryId',
+})
 
-// // Category.hasMany(Course,{
-// //     foreignKey: 'categoryId'
-// // })
-
-
-
+Category.hasMany(Course,{
+    foreignKey: 'categoryId'
+})
 
 export default Category;

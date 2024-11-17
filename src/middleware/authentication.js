@@ -3,20 +3,6 @@ import AppError from "../utils/Error.js";
 import jwt from "jsonwebtoken";
 import User from "../../database/models/User.js";
 
-// const protectedRoutes = catchError(async (req, res, next) => {
-//   let { token } = req.headers;
-//   let userPayload = null;
-//     if (!token) return next(new AppError("Token not provided", 401));
-//   jwt.verify(token, "KEY", async (err, payload) => {
-//     if (err) return next(new AppError("Invalid or expired token", 401));
-
-//     userPayload = payload;
-//   });
-//   let user = await User.findOne({ where: { id: userPayload.id } });
-//   if (!user) return next(new AppError("User not found", 404));
-//   req.user = user;
-//   next();
-// });
 const protectedRoutes = catchError(async (req, res, next) => {
   const { token } = req.headers;
 
